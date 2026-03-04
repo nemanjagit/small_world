@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Small World Experiment</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Small World</h1>
+      <span>Random graph explorer</span>
+    </header>
+
+    <aside class="sidebar">
+      <div class="control-group">
+        <label>n — nodes (people)</label>
+        <div class="slider-row">
+          <input
+            type="range"
+            id="n-slider"
+            min="5"
+            max="100"
+            value="30"
+            step="1"
+          />
+          <span class="val" id="n-val">30</span>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label>p — edge probability</label>
+        <div class="slider-row">
+          <input
+            type="range"
+            id="p-slider"
+            min="1"
+            max="100"
+            value="15"
+            step="1"
+          />
+          <span class="val" id="p-val">0.15</span>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <div class="toggle-row">
+          <span>communities</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="cluster-toggle" />
+            <span class="toggle-track"></span>
+          </label>
+        </div>
+      </div>
+
+      <div id="cluster-controls" class="cluster-controls hidden">
+        <div class="control-group">
+          <label>k — number of communities</label>
+          <div class="slider-row">
+            <input
+              type="range"
+              id="k-slider"
+              min="2"
+              max="10"
+              value="3"
+              step="1"
+            />
+            <span class="val" id="k-val">3</span>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label>cluster strength</label>
+          <div class="slider-row">
+            <input
+              type="range"
+              id="cluster-slider"
+              min="1"
+              max="20"
+              value="5"
+              step="1"
+            />
+            <span class="val" id="cluster-val">5×</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label>Layout</label>
+        <select id="layout-select">
+          <option value="force">Force-directed</option>
+          <option value="circle">Circle</option>
+        </select>
+      </div>
+
+      <div class="control-group">
+        <div class="toggle-row">
+          <span>use random.org</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="rng-toggle" checked />
+            <span class="toggle-track"></span>
+          </label>
+        </div>
+        <div class="rng-badge">source: <span id="rng-src">—</span></div>
+      </div>
+
+      <button class="btn" id="gen-btn">Generate Graph</button>
+
+      <div class="bfs-control">
+        <label>BFS from selected node</label>
+        <div class="step-info" id="step-info">
+          Click a node to start BFS traversal.
+        </div>
+        <button class="btn secondary" id="step-btn" disabled>
+          Next Degree
+        </button>
+        <button class="btn secondary" id="reset-bfs-btn" disabled>
+          Reset BFS
+        </button>
+      </div>
+
+      <div class="stats" id="stats-panel">
+        <div class="stat">
+          <span class="s-key">nodes</span><span class="s-val" id="st-n">—</span>
+        </div>
+        <div class="stat">
+          <span class="s-key">edges</span><span class="s-val" id="st-e">—</span>
+        </div>
+        <div class="stat">
+          <span class="s-key">avg degree</span
+          ><span class="s-val" id="st-deg">—</span>
+        </div>
+        <div class="stat">
+          <span class="s-key">components</span
+          ><span class="s-val" id="st-comp">—</span>
+        </div>
+        <div class="stat">
+          <span class="s-key">largest comp.</span
+          ><span class="s-val" id="st-gc">—</span>
+        </div>
+        <div class="stat">
+          <span class="s-key">BFS degree</span
+          ><span class="s-val" id="st-bfsdeg">—</span>
+        </div>
+        <div class="stat">
+          <span class="s-key">reached</span
+          ><span class="s-val" id="st-reached">—</span>
+        </div>
+      </div>
+
+      <div class="legend">
+        <div class="legend-item">
+          <div
+            class="dot"
+            style="background: #2a2a3e; border: 1.5px solid #3a3a5e"
+          ></div>
+          unvisited
+        </div>
+        <div class="legend-item">
+          <div class="dot" style="background: #f9c87d"></div>
+          source node
+        </div>
+        <div class="legend-item">
+          <div class="dot" style="background: #7df9c0"></div>
+          current frontier
+        </div>
+        <div class="legend-item">
+          <div class="dot" style="background: #7db8f9"></div>
+          previously visited
+        </div>
+      </div>
+    </aside>
+
+    <div id="canvas-wrap">
+      <canvas id="canvas"></canvas>
+      <div class="hint">
+        click a node to begin BFS · scroll to zoom · drag to pan
+      </div>
+      <div class="loading-overlay" id="loading">
+        <div class="spinner"></div>
+        <span>fetching random bits…</span>
+      </div>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/state.js"></script>
+    <script src="js/rng.js"></script>
+    <script src="js/graph.js"></script>
+    <script src="js/bfs.js"></script>
+    <script src="js/renderer.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>
